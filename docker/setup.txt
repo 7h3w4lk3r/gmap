@@ -1,0 +1,19 @@
+echo -e "\n[+] Starting gmap docker setup"
+echo "[+] Creating required dirs"
+mkdir /tmp/gmap 2> /dev/null
+echo "[+] Pull gmap from docker hub"
+docker pull rev3rse/gmap
+echo "[+] Remove old gmap container"
+docker stop gmap 2> /dev/null
+docker rm gmap 2> /dev/null
+echo "[+] Run gmap container"
+docker run -d --name gmap -h gmap -p 8000:8000 -v /tmp/gmap:/opt/xml rev3rse/gmap
+echo "[+] Configure TimeZone for container"
+docker exec -ti gmap bash /root/tzdata.sh
+echo "[+] Restart container"
+docker restart gmap
+echo "[+] Done"
+echo -e "\nNow you can point your browser to http://localhost:8000"
+echo "!! DO NOT EXPOSE gmap TO THE INTERNET, BE SMART !!"
+echo "Please, take few seconds to support this project on GitHub"
+echo -e "https://github.com/Rev3rseSecurity/gmap\n"
